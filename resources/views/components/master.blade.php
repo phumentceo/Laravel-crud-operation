@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
     <!-- Required meta tags -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Star Admin Premium Bootstrap Admin Dashboard Template</title>
@@ -69,5 +70,17 @@
     <script src="{{ asset('assets/js/demo_1/dashboard.js') }}"></script>
     <!-- End custom js for this page-->
     <script src="{{ asset('assets/js/shared/jquery.cookie.js') }}" type="text/javascript"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <script>
+      $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+      });
+    </script>
+
+    @yield('scripts')
   </body>
 </html>

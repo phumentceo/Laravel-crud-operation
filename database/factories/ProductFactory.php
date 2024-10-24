@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -21,8 +22,8 @@ class ProductFactory extends Factory
             "description" => $this->faker->text(70),
             "price" => $this->faker->numberBetween(200,1000),
             "qty"   => $this->faker->numberBetween(5,15),
-            "created_at" => now(),
-            "updated_at" => now(),
+            "created_at" => Carbon::now()->format('d-m-Y'),
+            "updated_at" => Carbon::now()->format('d-m-Y'),
         ];
     }
 }
