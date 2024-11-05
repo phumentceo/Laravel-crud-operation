@@ -22,6 +22,11 @@
     <link rel="stylesheet" href="{{ asset('assets/css/demo_1/style.css') }}">
     <!-- End Layout styles -->
     <link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico') }}" />
+
+    {{-- Boostrap icon --}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    {{-- Bootstrap css --}}
   </head>
   <body>
     <div class="container-scroller">
@@ -73,6 +78,8 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
+    {{-- Boostrap js --}}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
       $.ajaxSetup({
         headers: {

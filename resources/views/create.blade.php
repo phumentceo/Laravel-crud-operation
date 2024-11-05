@@ -27,13 +27,7 @@
           </div>
           <div class="form-group">
             <label>File upload</label>
-            <input type="file" name="image" class="file-upload-default">
-            <div class="input-group col-xs-12">
-              <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Image">
-              <span class="input-group-append">
-                <button class="file-upload-browse btn btn-info" type="button">Upload</button>
-              </span>
-            </div>
+            <input type="file" name="image" class=" form-control" id="image">
           </div>
          
           <div class="form-group">
@@ -61,19 +55,33 @@
             processData: false,
             success: function (response) {
                 if(response.status == 200){
-                  
+                  //form reset 
+                  $(form).trigger('reset');
+
+                  //remove feidl errors
+                  $("input").removeClass("is-invalid").siblings('p').removeClass('text-danger').text(" ");
+
+                  //redirect to list page
+                  window.location.href = "{{ route('product.list') }}";
+
                 }else{
                     //  let errors = response.errors;
                    if(response.errors.name != null){
                       $("#name").addClass("is-invalid").siblings('p').addClass('text-danger').text(response.errors.name);
+                   }else{
+                     $("#name").removeClass("is-invalid").siblings('p').removeClass('text-danger').text(" ");
                    }
 
                    if(response.errors.price){
                       $("#price").addClass("is-invalid").siblings('p').addClass('text-danger').text(response.errors.price);
+                   }else{
+                      $("#price").removeClass("is-invalid").siblings('p').removeClass('text-danger').text(" ");
                    }
 
                    if(response.errors.qty){
                      $("#qty").addClass("is-invalid").siblings('p').addClass('text-danger').text(response.errors.qty);
+                   }else{
+                    $("#qty").removeClass("is-invalid").siblings('p').removeClass('text-danger').text(" ");
                    }
 
 

@@ -9,37 +9,49 @@
             <a href="/product" class=" btn btn-outline-danger ">back</a>
         </div>
 
-        <form class="forms-sample" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('product.update',$product->id) }}" class="forms-sample" method="POST" enctype="multipart/form-data">
+          @csrf
           <div class="form-group">
             <label for="name">Name</label>
-            <input type="text" class="form-control" name="name" id="name" placeholder="Product Name">
+            <input type="text" class="form-control @error('name')  is-invalid   @enderror" value="{{ ($product->name != '' ) ? $product->name : 'null' }}" name="name" id="name" placeholder="Product Name">
+            @error('name')
+               <p class=" text-danger">{{ $message }}</p>
+            @enderror
           </div>
           <div class="form-group">
             <label for="price">Product Price</label>
-            <input type="number" class="form-control" name="price" id="price" placeholder="Price">
+            <input type="number" class="form-control @error('price')  is-invalid   @enderror " value="{{ ($product->price != '') ? $product->price : '0' }}" name="price" id="price" placeholder="Price">
+            @error('price')
+               <p class=" text-danger">{{ $message }}</p>
+            @enderror
           </div>
           <div class="form-group">
             <label for="qty">Product Qty</label>
-            <input type="number" class="form-control" name="qty" id="qty" placeholder="Qty">
+            <input type="number" class="form-control @error('qty')  is-invalid   @enderror" value="{{ $product->qty }}"  name="qty" id="qty" placeholder="Qty">
+            @error('qty')
+               <p class=" text-danger">{{ $message }}</p>
+            @enderror
           </div>
+
           <div class="form-group">
-            <label>File upload</label>
-            <input type="file" name="image" class="file-upload-default">
-            <div class="input-group col-xs-12">
-              <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Image">
-              <span class="input-group-append">
-                <button class="file-upload-browse btn btn-info" type="button">Upload</button>
-              </span>
-            </div>
+            <label for="">Product Image</label>
+            <input type="hidden" value="{{ $product->image }}" name="old_image">
+            <input type="file" name="image" id="" class="form-control">
           </div>
+          @if ($product->image != null)
+            <div>
+                <img width="200" src="{{ asset('uploads/'.$product->image) }}" alt="">
+            </div>
+          @endif
          
           <div class="form-group">
             <label for="desc">Description</label>
-            <textarea class="form-control" name="desc" id="desc" rows="2"></textarea>
+            <textarea class="form-control" name="desc" id="desc" rows="2">{{ $product->description }}</textarea>
           </div>
 
-          <button type="submit" class="btn btn-success mr-2">Submit</button>
+          <button type="submit" class="btn btn-success mr-2">Update</button>
           <button class="btn btn-light">Cancel</button>
+
         </form>
       </div>
     </div>
