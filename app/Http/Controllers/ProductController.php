@@ -164,4 +164,33 @@ class ProductController extends Controller
         //redirect to view 
         return redirect()->back()->with("success","Product Delete success");
     }
+
+    public function deleteSelect(Request $request){
+        
+        $productIds = $request->ids;
+        //45,46,58
+
+        #convert to array
+        $ids = explode(",",$productIds);
+
+        //=> [45,46,58]
+
+        foreach($ids as $id){
+            $product = Product::find($id); 
+            if($product->image != ''){
+                $image_path = public_path("uploads/".$product->image);
+                if(File::exists($image_path)){
+                    File::delete($image_path);
+                }
+            }
+            $product->delete(); 
+        }
+
+        Session::flash('success','Product deleted successful');
+
+        return response([
+            'status' => 200,
+            'message' => 'Product deleted successfully'
+        ]);
+    }
 }

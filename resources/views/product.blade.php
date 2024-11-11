@@ -4,12 +4,7 @@
     <div class="card">
       <div class="card-body">
 
-         @if(Session::has('success'))
-          <div class="alert bg-success alert-dismissible fade show d-flex justify-content-between align-items-center p-2" role="alert">
-               <h3>{{ Session::get('success') }}</h3>
-               <i class="bi bi-x-lg"  data-bs-dismiss="alert" aria-label="Close"></i>
-          </div>
-         @endif
+        @include('message.messages')
 
         <div class="d-flex justify-content-between align-items-center">
           <h1>Product Stock</h1>
@@ -35,7 +30,7 @@
               @foreach ($products as $product )
               <tr>
                 <td>
-                  <input type="checkbox" onclick="handleSelect()" value="{{ $product->id }}"/>
+                  <input onchange="handleSelect()" type="checkbox" value="{{ $product->id }}"/>
                   P{{ $product->id }}
                 </td>
                 <td>
@@ -59,6 +54,10 @@
                 {{ $products->links() }}
               </div>
 
+              <div class="">
+                 <button product-ids="" onclick="DeleteWithSelected()" id="btn_delete_selected" class="btn btn-outline-danger d-none">delete with selected</button>
+              </div>
+
               <div class="show-refresh">
                  <a href="{{ route('product.list') }}" class=" btn btn-danger">refresh</a>
               </div>
@@ -68,4 +67,55 @@
       </div>
     </div>
   </div>
+@endsection
+
+@section('scripts')
+<script>
+  
+   const handleSelect = () => {
+
+     let selectedProducts = [];
+     $('input[type="checkbox"]:checked').each(function(){
+        selectedProducts.push($(this).val());
+     });
+
+     
+     console.log(selectedProducts);
+
+     if(selectedProducts.length >= 1){
+
+       //convert array to string
+       let productIds = selectedProducts.join(',');
+
+       console.log(productIds);
+
+       $('#btn_delete_selected').removeClass('d-none');
+       $("#btn_delete_selected").attr("product-ids",productIds)
+     }else{
+       $('#btn_delete_selected').addClass('d-none');
+     }
+
+   }
+
+
+   const DeleteWithSelected = () => {
+     if(confirm("Do you want to delete with seleted?")){
+       let productIds = $('#btn_delete_selected').attr("product-ids");
+
+       $.ajax({
+        type: "POST",
+        url: "{{ route('product.deleteSelect') }}",
+        data: {
+          ids : productIds
+        },
+        dataType: "json",
+        success: function (response) {
+           if(response.status == 200){
+              window.location.href = '{{ route("product.list") }}'
+           }
+        }
+       });
+     }
+   }
+</script>
 @endsection
